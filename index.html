@@ -1,191 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>UglifyJS 3: Online JavaScript minifier</title>
-	<!--
-		Wrapper created by Dan Wolff (danwolff.se)
-		This wrapper is in the public domain. Attribution not required but appreciated.
+    <head>
+        <meta charset="utf-8">
+        <title>UglifyJS 3: Online JavaScript minifier</title>
 
-		UglifyJS is released under the BSD license, copyright Mihai Bazon.
-		For more information, see https://github.com/mishoo/UglifyJS2/.
-	 -->
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="stylesheet" href="style.css">
 
-	<link rel="shortcut icon" href="favicon.ico">
-	<link rel="stylesheet" href="style.css">
-</head>
-
-<body class="s-input s-info">
-
-<div class="header">
-	<h1><a id="header-link" href="./">UglifyJS 3: Online JavaScript minifier</a></h1>
-</div>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
 
-<div class="content">
-	<div class="col i i-input">
-<textarea id="in" rows="15" cols="80" spellcheck="false" tabindex="1" autofocus>// Your code goes here
+		<script src="uglify/lib/minify.js" defer></script>
+        <script src="uglify/lib/utils.js" defer></script>
+        <script src="uglify/lib/ast.js" defer></script>
+        <script src="uglify/lib/parse.js" defer></script>
+        <script src="uglify/lib/transform.js" defer></script>
+        <script src="uglify/lib/scope.js" defer></script>
+        <script src="uglify/lib/output.js" defer></script>
+        <script src="uglify/lib/compress.js" defer></script>
+        <script src="uglify/lib/propmangle.js" defer></script>
+        <!-- The following aren't needed: sourcemap.js, mozilla-ast.js -->
+        <script src="script.js" defer></script>
 
+    </head>
+    <body class="overflow-hidden container s-input s-input s-output">
+        <div class="header">
+            <h1><a id="header-link" href="./">UglifyJS 3: Online JavaScript minifier</a></h1>
+        </div>
+        <div class="content">
+			<div class="row align-items-start">
+				<div class="col p-2">
+					<div class="i i-input">
+						<textarea id="in" rows="15" cols="80" spellcheck="false" tabindex="1" autofocus="">// Your code goes here</textarea>
+						<div class="tools">
+							<!-- <button type="button" class="btn btn-primary float-end" id="btn-go" tabindex="1">Minify</button>
+							<button type="button" class="btn btn-secondary" id="btn-options" tabindex="2">Options</button> -->
 
-</textarea>
-		<div class="tools">
-			<button class="btn-main pull-right" id="btn-go" tabindex="1">Minify</button>
-			<button id="btn-options" tabindex="2">Options</button>
-			<label><input id="cb-as-i-type" type="checkbox" checked> As I type</label>
-		</div>
-	</div>
+							<!-- <label><input id="cb-as-i-type" type="checkbox" checked=""> As I type</label> -->
 
-	<div class="col i i-options">
-<textarea id="options" rows="15" cols="80" spellcheck="false" tabindex="1">// Documentation of the options is available at https://github.com/mishoo/UglifyJS2
+							<div class="row g-3 align-items-center">
+								<div class="col-sm-2">
+									<button type="button" class="btn btn-secondary" id="btn-options" tabindex="2">Options</button>
+								</div>
+								<div class="col-sm">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" value="" id="cb-as-i-type">
+										<label class="form-check-label" for="flexCheckDefault">
+											As I type
+										</label>
+									</div>
+								</div>
+								<div class="col-sm">
+									<button type="button" class="btn btn-primary float-end" id="btn-go" tabindex="1">Minify</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="i i-options">
+						<textarea id="options" rows="15" cols="80" spellcheck="false" tabindex="1">// Documentation of the options is available at https://github.com/mishoo/UglifyJS2
 {
-  parse: {
-    bare_returns     : false,
-    ecma             : 8,
-    expression       : false,
-    filename         : null,
-    html5_comments   : true,
-    shebang          : true,
-    strict           : false,
-    toplevel         : null
-  },
-  compress: {
-    arrows           : true,
-    booleans         : true,
-    collapse_vars    : true,
-    comparisons      : true,
-    computed_props   : true,
-    conditionals     : true,
-    dead_code        : true,
-    drop_console     : false,
-    drop_debugger    : true,
-    ecma             : 5,
-    evaluate         : true,
-    expression       : false,
-    global_defs      : {},
-    hoist_funs       : false,
-    hoist_props      : true,
-    hoist_vars       : false,
-    ie8              : false,
-    if_return        : true,
-    inline           : true,
-    join_vars        : true,
-    keep_classnames  : false,
-    keep_fargs       : true,
-    keep_fnames      : false,
-    keep_infinity    : false,
-    loops            : true,
-    negate_iife      : true,
-    passes           : 1,
-    properties       : true,
-    pure_getters     : "strict",
-    pure_funcs       : null,
-    reduce_funcs     : true,
-    reduce_vars      : true,
-    sequences        : true,
-    side_effects     : true,
-    switches         : true,
-    top_retain       : null,
-    toplevel         : false,
-    typeofs          : true,
-    unsafe           : false,
-    unsafe_arrows    : false,
-    unsafe_comps     : false,
-    unsafe_Function  : false,
-    unsafe_math      : false,
-    unsafe_methods   : false,
-    unsafe_proto     : false,
-    unsafe_regexp    : false,
-    unsafe_undefined : false,
-    unused           : true,
-    warnings         : false
-  },
-  mangle: {
-    eval             : false,
-    ie8              : false,
-    keep_classnames  : false,
-    keep_fnames      : false,
-    properties       : false,
-    reserved         : [],
-    safari10         : false,
-    toplevel         : false
-  },
-  output: {
-    ascii_only       : false,
-    beautify         : false,
-    bracketize       : false,
-    comments         : /@license|@preserve|^!/,
-    ecma             : 5,
-    ie8              : false,
-    indent_level     : 4,
-    indent_start     : 0,
-    inline_script    : true,
-    keep_quoted_props: false,
-    max_line_len     : false,
-    preamble         : null,
-    preserve_line    : false,
-    quote_keys       : false,
-    quote_style      : 0,
-    safari10         : false,
-    semicolons       : true,
-    shebang          : true,
-    source_map       : null,
-    webkit           : false,
-    width            : 80,
-    wrap_iife        : false
-  },
-  wrap: false
+   "parse":{
+      
+   },
+   "compress":{
+      "drop_console":false,
+      "drop_debugger":true,
+      "evaluate":"eager",
+      "unsafe":true,
+      "unsafe_comps":true,
+      "unsafe_Function":true,
+      "unsafe_math":true,
+      "unsafe_proto":true,
+      "unsafe_regexp":true,
+      "unsafe_undefined":true
+   },
+   "mangle":{
+      "eval":false,
+      "reserved":[
+         
+      ],
+      "toplevel":false
+   },
+   "output":{
+      "comments":"/@license|@preserve|^!/"
+   },
+   "wrap":false
 }
-</textarea>
-		<div class="tools">
-			<button class="btn-main" id="btn-options-save" tabindex="2">Save</button>
-			<button id="btn-options-reset" tabindex="2">Use defaults</button>
-		</div>
-	</div>
-
-	<div class="col i i-info">
-		<p>
-			<strong>UglifyJS 3</strong> is an excellent tool to help you minify your JavaScript!
-			It's a tried and tested tool, used by libraries such as jQuery.</p>
-
-		<p>
-			This is a simple wrapper for the browser around the minifier;
-			the hard work is done by the Uglify team.
-			If you need an automated solution, I suggest checking out the
-			<a href="https://github.com/mishoo/UglifyJS2">source code</a>, intended for Node.JS.</p>
-
-		<p>
-			Do you want to help improve this tool? It's on <a href="https://github.com/Skalman/UglifyJS-online">Github</a>.</p>
-
-		<p><small>
-			This wrapper for the browser was created by <a href="https://danwolff.se/">Dan Wolff</a>.
-
-			Version <code id="version">uglify-es 3.3.9</code>.</small></p>
-
-	</div>
-
-	<div class="col i i-output">
-		<p>
-			The minified output (<span id="stats"></span>)</p>
-		<textarea id="out" spellcheck="false" tabindex="3"></textarea>
-	</div>
-
-	<div class="col i i-error">
-		<pre id="error"></pre>
-	</div>
-</div>
-
-<script src="uglify/lib/minify.js"></script>
-<script src="uglify/lib/utils.js"></script>
-<script src="uglify/lib/ast.js"></script>
-<script src="uglify/lib/parse.js"></script>
-<script src="uglify/lib/transform.js"></script>
-<script src="uglify/lib/scope.js"></script>
-<script src="uglify/lib/output.js"></script>
-<script src="uglify/lib/compress.js"></script>
-<script src="uglify/lib/propmangle.js"></script>
-<!-- The following aren't needed: sourcemap.js, mozilla-ast.js -->
-
-<script src="script.js"></script>
-
-</body>
+		</textarea>
+						<div class="tools">
+							<button type="button" class="btn btn-primary" id="btn-options-save" tabindex="1">Save</button>
+							<button type="button" class="btn btn-secondary" id="btn-options-reset" tabindex="1">Use defaults</button>
+						</div>
+					</div>
+				</div>
+				<div class="col p-2">
+					<div class="i i-info">
+						<p>
+							<strong>UglifyJS 3</strong> is an excellent tool to help you minify your JavaScript!
+							It's a tried and tested tool, used by libraries such as jQuery.
+						</p>
+						<p>
+							This is a simple wrapper for the browser around the minifier;
+							the hard work is done by the Uglify team.
+							If you need an automated solution, I suggest checking out the
+							<a href="https://github.com/mishoo/UglifyJS2">source code</a>, intended for Node.JS.
+						</p>
+						<p>
+							Do you want to help improve this tool? It's on <a href="https://github.com/Skalman/UglifyJS-online">Github</a>.
+						</p>
+						<p><small>
+							This wrapper for the browser was created by <a href="https://danwolff.se/">Dan Wolff</a>.
+							Version <code id="version">uglify-js 3.13.4</code>.</small>
+						</p>
+					</div>
+					<div class="i i-output">
+						<p>
+							The minified output (<span id="stats">20 bytes, saved 54.55%</span>)
+						</p>
+						<textarea id="out" rows="15" cols="80" spellcheck="false" tabindex="3"></textarea>
+					</div>
+					<div class="i i-error">
+						<pre id="error"></pre>
+					</div>
+				</div>
+			</div>
+        </div>
+    </body>
 </html>
